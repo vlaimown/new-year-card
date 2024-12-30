@@ -3,12 +3,6 @@ import random
 
 t = turtle.Turtle()
 screen = turtle.Screen()
-screen.bgcolor("yellow")
-
-start_Y = -250
-start_X = 0
-
-current_Y = start_Y
 
 paint_needle_offset_Y = -20
 
@@ -19,10 +13,12 @@ needle_height_min = 70
 trunk_height = 35
 trunk_width = 10
 
-def reset_turtle(speed=10):
-    global start_X
-    global start_Y
 
+def set_bg_color(bg_color = "white"):
+  	screen.bgcolor(bg_color)
+
+
+def reset_turtle(start_X = 0, start_Y = 0, speed = 10):
     t.ht()
     t.up()
     t.speed(speed)
@@ -36,9 +32,9 @@ def random_needle_height():
 
     return random.choice(range(needle_height_min, needle_height_max))
 
-def paint_trunk():
-    global needle_height
-    global current_Y
+
+def paint_trunk(start_Y):
+    current_Y = start_Y
 
     t.color("brown")
     t.begin_fill()
@@ -50,11 +46,11 @@ def paint_trunk():
         t.right(-90)
 
     t.end_fill()
+
+
+def paint_needles(start_X, start_Y, times):
+    current_Y = start_Y
     current_Y += trunk_height
-
-
-def paint_needles(times):
-    global current_Y
 
     t.color("green")
 
@@ -77,8 +73,15 @@ def paint_needles(times):
         current_Y += random_height + paint_needle_offset_Y
         needle_width /= 1.245
 
-reset_turtle()
-paint_trunk()
-paint_needles(5)
+
+def paint_tree(start_X = 0, start_Y = 0, needle_counts = 5, speed = 10):
+    reset_turtle(start_X, start_Y, speed)
+    paint_trunk(start_Y)
+    paint_needles(start_X, start_Y, needle_counts)
+
+set_bg_color("yellow")
+
+paint_tree(-100, -200, 6)
+paint_tree(100, -250, 5)
 
 #screen.mainloop()
