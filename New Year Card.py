@@ -13,19 +13,56 @@ needle_height_min = 70
 trunk_height = 35
 trunk_width = 10
 
+min_snowflake_radius = 5
+max_snowflake_radius = 10
 
-def set_bg_color(bg_color = "white"):
-  	screen.bgcolor(bg_color)
 
-
-def reset_turtle(start_X = 0, start_Y = 0, speed = 10):
+def config_turtle(speed=10):
     t.ht()
-    t.up()
     t.speed(speed)
-    t.goto(start_X, start_Y)
+
+
+def set_bg_color(bg_color="white"):
+    screen.bgcolor(bg_color)
+
+
+def set_pos(x=0, y=0):
+    t.up()
+    t.goto(x, y)
     t.down()
 
 
+def rectangular(width, height):
+    for i in range(2):
+        t.forward(width)
+        t.right(-90)
+        t.forward(height)
+        t.right(-90)
+
+
+def paint_snowflake(count=10):
+    t.color("white")
+    for i in range(count):
+        x = random.choice(range(-250, 250))
+        y = random.choice(range(-250, 250))
+        set_pos(x, y)
+        t.begin_fill()
+        rnd_radius = random.choice(range(min_snowflake_radius, max_snowflake_radius))
+        t.circle(rnd_radius)
+        t.end_fill()
+
+
+def paint_present(x, y, width, height, color):
+    t.color(color)
+    t.up()
+    t.goto(x, y)
+    t.down()
+    t.begin_fill()
+    rectangular(width, height)
+    t.end_fill()
+
+
+# region Tree
 def random_needle_height():
     global needle_height_min
     global needle_height_max
@@ -36,13 +73,7 @@ def random_needle_height():
 def paint_trunk():
     t.color("brown")
     t.begin_fill()
-
-    for i in range(2):
-        t.forward(trunk_width)
-        t.right(-90)
-        t.forward(trunk_height)
-        t.right(-90)
-
+    rectangular(trunk_width, trunk_height)
     t.end_fill()
 
 
@@ -72,15 +103,23 @@ def paint_needles(start_X, times):
         needle_width /= 1.245
 
 
-def paint_tree(start_X = 0, start_Y = 0, needle_counts = 5, speed = 10):
-    reset_turtle(start_X, start_Y, speed)
+def paint_tree(start_X=0, start_Y=0, needle_counts=5, speed=10):
+    set_pos(start_X, start_Y)
     paint_trunk()
     paint_needles(start_X, needle_counts)
 
 
-set_bg_color("yellow")
+# endregion
+
+set_bg_color("cyan")
+
+config_turtle()
+
+paint_present(-75, -200, 50, 50, "red")
+paint_present(-50, -215, 35, 35, "yellow")
 
 paint_tree(-100, -200, 6)
-paint_tree(100, -250, 5)
+paint_tree(150, -250, 5)
+paint_snowflake(30)
 
-#screen.mainloop()
+# screen.mainloop()
