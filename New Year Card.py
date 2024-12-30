@@ -33,9 +33,7 @@ def random_needle_height():
     return random.choice(range(needle_height_min, needle_height_max))
 
 
-def paint_trunk(start_Y):
-    current_Y = start_Y
-
+def paint_trunk():
     t.color("brown")
     t.begin_fill()
 
@@ -48,8 +46,8 @@ def paint_trunk(start_Y):
     t.end_fill()
 
 
-def paint_needles(start_X, start_Y, times):
-    current_Y = start_Y
+def paint_needles(start_X, times):
+    current_Y = t.ycor()
     current_Y += trunk_height
 
     t.color("green")
@@ -76,8 +74,9 @@ def paint_needles(start_X, start_Y, times):
 
 def paint_tree(start_X = 0, start_Y = 0, needle_counts = 5, speed = 10):
     reset_turtle(start_X, start_Y, speed)
-    paint_trunk(start_Y)
-    paint_needles(start_X, start_Y, needle_counts)
+    paint_trunk()
+    paint_needles(start_X, needle_counts)
+
 
 set_bg_color("yellow")
 
